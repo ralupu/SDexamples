@@ -28,12 +28,12 @@ plt.legend(fontsize=12, loc='lower right')
 plt.ylim([-0.05, 1.05])
 plt.grid(True, linestyle=':', alpha=0.7)
 
-# Add a pointer/arrow to the space between curves
-plt.annotate('Area where F2 > F1',
-             xy=(2, F2[np.abs(x-2).argmin()]), xycoords='data',
-             xytext=(2.5, 0.35), textcoords='data',
-             arrowprops=dict(facecolor='#E45756', edgecolor='black', arrowstyle='->', lw=2),
-             fontsize=13, color='#E45756', weight='bold')
+# # Add a pointer/arrow to the space between curves
+# plt.annotate('Area where F2 > F1',
+#              xy=(2, F2[np.abs(x-2).argmin()]), xycoords='data',
+#              xytext=(2.5, 0.35), textcoords='data',
+#              arrowprops=dict(facecolor='#E45756', edgecolor='black', arrowstyle='->', lw=2),
+#              fontsize=13, color='#E45756', weight='bold')
 
 plt.tight_layout()
 plt.show()
