@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 
 x = np.linspace(-4, 4, 500)
-F1 = norm.cdf(x, loc=0, scale=1.1)
-F2 = norm.cdf(x, loc=0.08, scale=0.75)
+# Swap F1 and F2: F1 is now the "tighter" one (concentrated), F2 is "wider"
+F1 = norm.cdf(x, loc=0.08, scale=0.75)    # More concentrated
+F2 = norm.cdf(x, loc=0, scale=1.1)        # Wider
 
 # Crossing points
 crossings = np.where(np.diff(np.sign(F1 - F2)))[0]
@@ -20,8 +21,8 @@ fig, (ax1, ax2, ax3) = plt.subplots(
 )
 
 # --- First subplot: CDFs ---
-ax1.plot(x, F2, label='F2', color='#E45756', linewidth=2.5)
 ax1.plot(x, F1, label='F1', color='#4E79A7', linewidth=2.5)
+ax1.plot(x, F2, label='F2', color='#E45756', linewidth=2.5)
 ax1.fill_between(x, F1, F2, where=(F1 > F2), color='#76B7B2', alpha=0.6, label='A: F1 > F2')
 ax1.fill_between(x, F2, F1, where=(F2 > F1), color='#F1F1F1', alpha=0.8, label='B: F2 > F1')
 
@@ -32,12 +33,12 @@ for xc in x_cross:
 ax1.text(-2.5, 0.7, 'B', fontsize=16, weight='bold', color='#E45756')
 ax1.text(2.2, 0.25, 'A', fontsize=16, weight='bold', color='#4E79A7')
 
-ax1.set_title('F1 SSD F2, but not FSD: CDFs Cross Slightly Left of 0, B ≈ A', fontsize=16, weight='bold')
+ax1.set_title('F2 SSD F1, but not FSD: CDFs Cross Slightly Left of 0, B ≈ A', fontsize=16, weight='bold')
 ax1.set_ylabel('CDF Value', fontsize=14)
 ax1.legend(fontsize=12, loc='lower right')
 ax1.set_ylim([-0.05, 1.05])
 ax1.grid(True, linestyle=':', alpha=0.7)
-ax1.annotate("F2 > F1 in region B (left, nearly equal to A)\nF1 > F2 in region A (right)\n→ CDFs cross, F1 SSD F2 but not FSD",
+ax1.annotate("F2 > F1 in region B (left, nearly equal to A)\nF1 > F2 in region A (right)\n→ CDFs cross, F2 SSD F1 but not FSD",
             xy=(x_cross[-1]+0.4, 0.8), xycoords='data',
             xytext=(1.5, 0.45), textcoords='data',
             fontsize=13, color='#333333', bbox=dict(boxstyle="round,pad=0.3", fc='white', ec='#4E79A7', lw=2))
@@ -59,7 +60,7 @@ ax2.set_ylim([-0.23, 0.23])
 ax2.grid(True, linestyle=':', alpha=0.7)
 ax2.legend(fontsize=12, loc='lower right')
 
-# --- Third subplot: Cumulative integral ---
+# --- Third subplot: Cumulative integral (F1-F2) ---
 ax3.plot(x, cum_integral, color='#4E79A7', linewidth=2.5, label=r'$\int_{-\infty}^x [F_1(t) - F_2(t)] dt$')
 ax3.axhline(0, color='grey', linestyle='--', linewidth=1.5)
 
